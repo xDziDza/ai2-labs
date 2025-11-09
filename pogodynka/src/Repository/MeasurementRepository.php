@@ -10,7 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<Measurement>
  */
-class MeasurmentRepository extends ServiceEntityRepository
+class MeasurementRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
