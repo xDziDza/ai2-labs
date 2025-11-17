@@ -3,6 +3,7 @@
 {% block title %}Location index{% endblock %}
 
 {% block body %}
+    {% if is_granted('ROLE_LOCATION_INDEX') %}
     <h1>Location index</h1>
 
     <table class="table">
@@ -36,6 +37,8 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_location_new') }}">Create new</a>
+    {% endif %}
+    {% if is_granted('ROLE_LOCATION_NEW') %}
+        <a href="{{ path('app_location_new') }}">Create new</a>
+    {% endif %}
 {% endblock %}

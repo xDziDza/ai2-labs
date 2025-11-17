@@ -10,8 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/location')]
+#[IsGranted('ROLE_LOCATION_INDEX')]
 final class LocationController extends AbstractController
 {
     #[Route(name: 'app_location_index', methods: ['GET'])]
@@ -23,10 +25,11 @@ final class LocationController extends AbstractController
     }
 
     #[Route('/new', name: 'app_location_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_LOCATION_NEW')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $location = new Location();
-        $form = $this->createForm(LocationType::class, $location);
+        $form = $this->createForm(LocationType::class, $location, ['validation_groups' => 'create',]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,9 +54,10 @@ final class LocationController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_location_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_LOCATION_EDIT')]
     public function edit(Request $request, Location $location, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(LocationType::class, $location);
+        $form = $this->createForm(LocationType::class, $location, ['validation_groups' => 'edit',]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
